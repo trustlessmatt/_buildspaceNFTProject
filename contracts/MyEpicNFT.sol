@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
-// We need to import the helper functions from the contract that we copy/pasted.
+// import the helper function that encodes base64
 import { Base64 } from "./libraries/Base64.sol";
 
 // We inherit the contract we imported. This means we'll have access
@@ -22,12 +22,12 @@ contract MyEpicNFT is ERC721URIStorage {
 
   // I create three arrays, each with their own theme of random words.
   // Pick some random funny words, names of anime characters, foods you like, whatever! 
-  string[] firstWords = ["amine", "kanye", "izvnvgi", "kendrick", "cole", "eminmen"];
-  string[] secondWords = ["soccer", "tennis", "baseball", "mom", "dog", "football"];
-  string[] thirdWords = ["august", "hotel", "fanta", "progress", "yoyo", "socks"];
+  string[] firstWords = ["amine", "kanye", "war", "shrink", "cole", "eminmen"];
+  string[] secondWords = ["soccer", "tennis", "baseball", "tank", "french", "football"];
+  string[] thirdWords = ["august", "regal", "fanta", "progress", "empath", "socks"];
 
   // Get fancy with it! Declare a bunch of colors.
-  string[] colors = ["red", "#08C2A8", "black", "yellow", "blue", "green"];
+  string[] colors = ["red", "#08C2A8", "black", "pink", "blue", "green", "orange"];
 
   // capture the new mint in an event
   event NewEpicNFTMinted(address sender, uint256 tokenId);
@@ -35,14 +35,14 @@ contract MyEpicNFT is ERC721URIStorage {
   // constructor now passes name of my NFT and the coin symbol
   // designation that deployment follow ERC721 standard
   constructor() ERC721 ("LoPfeifNFT", "LOPFEIF") {
-    console.log("This is my NFT Contract!!");
+    console.log("NFT Contract deployed");
   }
 
   // randomly pick a word from each array using a stringified version of tokenID +
   // the phrase "FIRST_WORD" and running it through an encoder for a source of randomness
   // !! not truly random and easy to take advantage of but this is for educational purposes only
   function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
-    // I seed the random generator. More on this in the lesson. 
+    // Seed the random generator with known items 
     uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId))));
     // Squash the # between 0 and the length of the array to avoid going out of bounds.
     rand = rand % firstWords.length;
@@ -101,7 +101,7 @@ contract MyEpicNFT is ERC721URIStorage {
                 abi.encodePacked(
                     '{"name": "',
                     combinedWord,
-                    '", "description": "A highly acclaimed collection of squares.", "image": "data:image/svg+xml;base64,',
+                    '", "description": "A highly acclaimed collection of LoFi squares.", "image": "data:image/svg+xml;base64,',
                     Base64.encode(bytes(finalSvg)),
                     '"}'
                 )
