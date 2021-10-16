@@ -30,7 +30,7 @@ const App = () => {
   // state variable to store users wallet
   const [currentAccount, setCurrentAccount] = useState("");
   const [myNetwork, setMyNetwork] = useState("");
-  const [myNFTCount, setMyNFTCount] = useState("");
+  const [myNFTCount, setMyNFTCount] = useState(0);
 
   const { ethereum } = window;
 
@@ -168,11 +168,12 @@ const App = () => {
     }
   }
   
-  // run the function on page load
+  // run the useEffect hook on the first render/mount
+  // plus each time
   useEffect(() => {
     checkIfWalletIsConnected();
     getNFTCount();
-  }, [])
+  })
   
   // Render Methods - different renderings depending on the state of the page
   const renderNotConnectedContainer = () => (
